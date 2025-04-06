@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Friendship Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --primary-light: #818cf8;
+            --secondary-color: #f472b6;
+            --text-color: #1f2937;
+            --bg-color: #f9fafb;
+            --card-bg: #ffffff;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --gradient: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        .floating-element {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--gradient);
+            animation: float 15s linear infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px) scale(1.5) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            width: 90%;
+            max-width: 500px;
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+            transform: translateY(0);
+            transition: all 0.5s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: var(--text-color);
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .content p {
+            text-align: center;
+            color: var(--text-color);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .input-group label {
+            font-size: 14px;
+            color: var(--text-color);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .input-field {
+            height: 50px;
+            padding: 0 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        .input-field::placeholder {
+            color: #9ca3af;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 42px;
+            cursor: pointer;
+            color: #9ca3af;
+        }
+
+        .forgot {
+            display: flex;
+            justify-content: flex-end;
+            position: relative;
+            margin-top: 5px;
+        }
+
+        .forgot a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .forgot a:hover {
+            color: var(--primary-light);
+        }
+
+        .hover-message {
+            position: absolute;
+            top: -60px;
+            right: 0;
+            background: var(--card-bg);
+            padding: 10px 15px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            width: 270px;
+            display: none;
+            font-size: 14px;
+            color: var(--text-color);
+            text-align: center;
+            z-index: 10;
+        }
+
+        .forgot a:hover + .hover-message {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .submit-btn {
+            position: relative;
+            background: var(--gradient);
+            color: white;
+            height: 55px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn .icon {
+            margin-left: 10px;
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s;
+        }
+
+        .submit-btn:hover .icon {
+            transform: translateX(5px);
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 14px;
+            margin-bottom: 15px;
+            text-align: center;
+            min-height: 20px;
+        }
+
+        .password-hint {
+            text-align: center;
+            color: #6b7280;
+            font-size: 14px;
+            margin-top: 20px;
+            font-style: italic;
+        }
+
+        .friendship-elements {
+            display: none;
+            width: 90%;
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+            animation: scaleIn 0.5s ease;
+        }
+
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid rgba(99, 102, 241, 0.3);
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header h2 {
+            color: var(--text-color);
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .card-header hr {
+            width: 80px;
+            height: 4px;
+            background: var(--gradient);
+            border: none;
+            margin: 0 auto;
+            border-radius: 2px;
+        }
+
+        .card-content {
+            color: var(--text-color);
+            line-height: 1.8;
+        }
+
+        .card-content p {
+            margin-bottom: 15px;
+            font-size: 16px;
+            padding: 0 20px;
+        }
+
+        .footer {
+            color: var(--text-color);
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        .footer p {
+            margin-bottom: 10px;
+        }
+
+        .footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer a:hover {
+            color: var(--primary-light);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-animation" id="background-animation">
+        <!-- Animated elements will be added via JavaScript -->
+    </div>
+    
+    <div class="container" id="auth-container">
+        <div class="header">
+            <h1>Welcome to the Exclusive Friendship Page</h1>
+        </div>
+        <div class="content">
+            <p>Please enter your name and the password to see a special message for you and your friends!</p>
+            <div class="error-message" id="error-message"></div>
+            
+            <div class="form">
+                <div class="input-group">
+                    <label for="name-input">Username</label>
+                    <input type="text" id="name-input" class="input-field" placeholder="Enter your real name">
+                </div>
+                <div class="input-group">
+                    <label for="password-input">Password</label>
+                    <input type="password" id="password-input" class="input-field" placeholder="Guess the password dummy">
+                    <span class="toggle-password" onclick="togglePassword()">
+                        <i class="far fa-eye"></i>
+                    </span>
+                    <div class="forgot">
+                        <a href="#">Forgot Password?</a>
+                        <div class="hover-message">Dummy! I know that you can't do that. Here is the password: {friendship2024}</div>
+                    </div>
+                </div>
+                <button type="button" class="submit-btn" onclick="showFriendshipElements()">
+                    Submit
+                    <div class="icon">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </button>
+                <p class="password-hint">Hint: The password is related to our bond and year.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="friendship-elements" id="friendship-elements">
+        <div class="card">
+            <div class="card-header">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRa5CTniOxERG0I6dzIYFgFPcPbwcrD7S2jr1XyKLZF6qA6E_-fSkt2R8s&s" alt="Friendship Image" class="profile-image">
+                <h2>Hello, <span id="friend-name">Friend</span>!</h2>
+                <hr>
+            </div>
+            <div class="card-content">
+                <p>Laughing together until our stomachs hurt.</p>
+                <p>Supporting each other through tough times.</p>
+                <p>Creating unforgettable memories on our adventures.</p>
+                <p>Celebrating each other's successes.</p>
+                <p>Sharing secrets and dreams.</p>
+                <p>Thank you all for supporting me up till now!</p>
+            </div>
+        </div>
+        <div class="footer">
+            <p>With love, Shubham Niraula</p>
+            <p><a href="mailto:shubhamnirula567@gmail.com">shubhamnirula567@gmail.com</a></p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const validPassword = "friendship2024";
+            const authContainer = document.getElementById('auth-container');
+            const friendshipElements = document.getElementById('friendship-elements');
+            const nameInput = document.getElementById('name-input');
+            const passwordInput = document.getElementById('password-input');
+            const errorMessage = document.getElementById('error-message');
+            const friendName = document.getElementById('friend-name');
+            const backgroundAnimation = document.getElementById('background-animation');
+
+            // Create initial floating elements
+            createFloatingElements();
+
+            // Function to toggle password visibility
+            window.togglePassword = function() {
+                const passwordField = document.getElementById('password-input');
+                const toggleIcon = document.querySelector('.toggle-password i');
+                
+                if (passwordField.type === "password") {
+                    passwordField.type = "text";
+                    toggleIcon.classList.remove('fa-eye');
+                    toggleIcon.classList.add('fa-eye-slash');
+                } else {
+                    passwordField.type = "password";
+                    toggleIcon.classList.remove('fa-eye-slash');
+                    toggleIcon.classList.add('fa-eye');
+                }
+            };
+
+            // Function to validate input and show friendship elements
+            window.showFriendshipElements = function() {
+                const name = nameInput.value.trim();
+                const password = passwordInput.value.trim();
+
+                if (name === "" || password === "") {
+                    errorMessage.textContent = "Please fill in both fields.";
+                    errorMessage.style.animation = "fadeIn 0.3s ease";
+                    return;
+                }
+
+                if (password === validPassword) {
+                    authContainer.style.transform = "translateY(-20px)";
+                    authContainer.style.opacity = "0";
+                    
+                    setTimeout(() => {
+                        authContainer.style.display = 'none';
+                        friendshipElements.style.display = 'block';
+                        friendName.textContent = name;
+                        errorMessage.textContent = "";
+                        
+                        // Create more floating elements for the friendship page
+                        createFloatingElements(40);
+                    }, 500);
+                } else {
+                    errorMessage.textContent = "Incorrect password. Please try again.";
+                    errorMessage.style.animation = "none";
+                    setTimeout(() => {
+                        errorMessage.style.animation = "fadeIn 0.3s ease";
+                    }, 10);
+                    
+                    // Shake effect on password field
+                    passwordInput.style.animation = "none";
+                    setTimeout(() => {
+                        passwordInput.style.animation = "shake 0.5s ease";
+                    }, 10);
+                }
+            };
+
+            // Add a keypress event listener to allow Enter key submission
+            document.addEventListener("keypress", function(event) {
+                if (event.key === "Enter" && authContainer.style.display !== 'none') {
+                    showFriendshipElements();
+                }
+            });
+
+            // Function to create floating elements in the background
+            function createFloatingElements(count = 20) {
+                const colors = [
+                    'rgba(99, 102, 241, 0.7)',
+                    'rgba(244, 114, 182, 0.7)',
+                    'rgba(139, 92, 246, 0.7)',
+                    'rgba(248, 113, 113, 0.7)',
+                    'rgba(16, 185, 129, 0.7)'
+                ];
+                
+                for (let i = 0; i < count; i++) {
+                    const floatingElement = document.createElement('div');
+                    floatingElement.className = 'floating-element';
+                    
+                    const size = Math.random() * 30 + 10;
+                    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                    
+                    floatingElement.style.width = `${size}px`;
+                    floatingElement.style.height = `${size}px`;
+                    floatingElement.style.left = `${Math.random() * 100}%`;
+                    floatingElement.style.background = randomColor;
+                    floatingElement.style.opacity = Math.random() * 0.6 + 0.2;
+                    floatingElement.style.animationDuration = `${Math.random() * 15 + 10}s`;
+                    floatingElement.style.animationDelay = `${Math.random() * 5}s`;
+                    
+                    backgroundAnimation.appendChild(floatingElement);
+                }
+            }
+            
+            // Add CSS animation for shaking effect
+            const styleSheet = document.createElement("style");
+            styleSheet.textContent = `
+                @keyframes shake {
+                    0%, 100% { transform: translateX(0); }
+                    20%, 60% { transform: translateX(-5px); }
+                    40%, 80% { transform: translateX(5px); }
+                }
+            `;
+            document.head.appendChild(styleSheet);
+        });
+    </script>
+</body>
+</html>
